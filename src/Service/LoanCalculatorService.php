@@ -64,7 +64,6 @@ class LoanCalculatorService implements FeeCalculator
             15000 => 600,
             16000 => 640,
             17000 => 680,
-            70 => 1000,
             18000 => 720,
             19000 => 760,
             20000 => 800

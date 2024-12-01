@@ -5,4 +5,6 @@ use \PragmaGoTech\Interview\Service\LoanCalculatorService;
 use \PragmaGoTech\Interview\Model\LoanProposal;
     require_once __DIR__ . '/vendor/autoload.php';
     $calculator = new LoanCalculatorService();
-    $res = $calculator->calculate(new LoanProposal(24,2750));
+    $res = $calculator->calculate(new LoanProposal(24,1410));
+    var_dump($res);
+    exit;

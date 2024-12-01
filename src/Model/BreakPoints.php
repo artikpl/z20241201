@@ -23,11 +23,28 @@ class BreakPoints
         $this->levels = $data;
     }
 
+    private function interpolate(float $loanAmount,float $lowerLimit,float $lowerFee,float $upperLimit,float $upperFee){
+        $x = $loanAmount;
+        $y1 = $upperFee;
+        $y0 = $lowerFee;
+        $x1 = $upperLimit;
+        $x0 = $lowerLimit;
+        $fee = $y0 + (($y1-$y0)/($x1-$x0))*($x-$x0);
+        return ceil($fee/5)*5;
+    }
+
     public function getFee(float $loanAmount) : float
     {
-        foreach($this->levels as $limit => $fee){
-            if($loanAmount<=$limit){
-                return $fee;
+        $lowerLimit = null;
+        $lowerFee = null;
+        foreach($this->levels as $upperLimit => $upperFee){
+            if($upperLimit<$loanAmount) {
+                $lowerLimit = $upperLimit;
+                $lowerFee = $upperFee;
+            }else if(!isset($lowerFee)) {
+                return $upperFee;
+            }else{
+                return $this->interpolate($loanAmount,$lowerLimit,$lowerFee,$upperLimit,$upperFee);
             }
         }
         throw new LoanAmountLimitExceedException();
